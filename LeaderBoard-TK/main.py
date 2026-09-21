@@ -16,7 +16,7 @@ from services import leaderboard_service
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-SYNC_INTERVAL_SECONDS = 5 * 60 + 30  # 5 minutes and 30 seconds
+SYNC_INTERVAL_SECONDS = 30  # 30 seconds
 
 
 async def periodic_sync():
