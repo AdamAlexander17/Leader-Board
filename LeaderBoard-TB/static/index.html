@@ -10,7 +10,8 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Trade Bazaar - Leaderboard</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230a0a0a'/%3E%3Cpath d='M28 8h8v4h-8zM28 52h8v4h-8z' fill='%23b8ff00'/%3E%3Cpath d='M22 12h20c6.6 0 12 4.5 12 10s-3.4 8.5-8 9.5c5.6 1.2 10 5.5 10 11.5 0 6.5-6.4 11-14 11H20c-1.1 0-2-.9-2-2V14c0-1.1.9-2 2-2h2zm4 8v10h14c3.3 0 6-2.2 6-5s-2.7-5-6-5H26zm0 18v12h16c4.4 0 8-2.7 8-6s-3.6-6-8-6H26z' fill='%23b8ff00'/%3E%3C/svg%3E" />
+    <link rel="icon" type="image/png" href="/static/tb-favicon.png" />
+    <link rel="apple-touch-icon" href="/static/tb-favicon.png" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
     <style>
         :root {
@@ -1772,31 +1773,20 @@
             .fr-box .fr-body, .fr-box.has-results .fr-body { padding-bottom: calc(28px + env(safe-area-inset-bottom)); }
         }
 
-        /* ═════════ Find Your Rank: TB opens like a terminal powering on ═════════ */
-        .modal-box.fr-box { transform-origin: center; animation: tbModalBoot .42s steps(1, end) both; }
-        @keyframes tbModalBoot {
-            0%   { opacity: 0; transform: scaleY(.02); }
-            8%   { opacity: 1; transform: scaleY(.02); }
-            28%  { opacity: 1; transform: scaleY(1); }
-            42%  { opacity: .35; }
-            56%  { opacity: 1; }
-            68%  { opacity: .55; }
-            100% { opacity: 1; transform: scaleY(1); }
+        /* ═════════ Find Your Rank: opens directly with a clean fade + scale ═════════ */
+        .modal-box.fr-box { transform-origin: center; animation: tbModalIn .22s ease both; }
+        @keyframes tbModalIn {
+            from { opacity: 0; transform: scale(.96); }
+            to   { opacity: 1; transform: scale(1); }
         }
-        .fr-head-ic { animation: tbIconFlicker .5s .1s steps(1, end) both; }
-        @keyframes tbIconFlicker { 0%,15%,30% { opacity: 0; } 8%,22%,45% { opacity: 1; } 100% { opacity: 1; } }
-        /* TB opens as a full-screen console dropping from the top — not a bottom sheet or a centered card */
+        /* TB opens as a full-screen console — not a bottom sheet or a centered card */
         @media (max-width: 480px) {
             .modal-overlay { align-items: flex-start; padding: 0; }
-            .modal-box.fr-box { width: 100%; max-width: 100%; height: 100vh; height: 100dvh; max-height: 100vh; max-height: 100dvh; border-radius: 0; animation: tbSheetBoot .42s steps(1, end) both; }
+            .modal-box.fr-box { width: 100%; max-width: 100%; height: 100vh; height: 100dvh; max-height: 100vh; max-height: 100dvh; border-radius: 0; animation: tbSheetIn .22s ease both; }
         }
-        @keyframes tbSheetBoot {
-            0%   { opacity: 0; transform: translateY(-100%); }
-            10%  { opacity: 1; transform: translateY(-100%); }
-            35%  { opacity: .4; transform: translateY(-30%); }
-            50%  { opacity: 1; transform: translateY(0); }
-            65%  { opacity: .6; }
-            100% { opacity: 1; transform: translateY(0); }
+        @keyframes tbSheetIn {
+            from { opacity: 0; transform: translateY(-16px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
         @media (prefers-reduced-motion: reduce) {
             .modal-box.fr-box, .fr-head-ic { animation: none; }
@@ -1963,7 +1953,7 @@
     <!-- Top 3 -->
     <section class="top3-section">
         <div class="top3-head">
-            <span class="top3-ic"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/></svg></span>
+            <span class="top3-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6.2"/><path d="M8.5 13.4 7 21l5-2.7 5 2.7-1.5-7.6"/></svg></span>
             <div>
                 <div class="top3-title">Top 3 Traders</div>
                 <div class="top3-sub">Leading the competition this season</div>
