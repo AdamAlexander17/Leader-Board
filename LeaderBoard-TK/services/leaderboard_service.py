@@ -52,7 +52,11 @@ async def fetch_and_sync(db: Session):
 
 
 def get_leaderboard(db: Session, page: int = 1, page_size: int = 10):
-    """Return paginated leaderboard sorted by rank (top 100 only)."""
+    """Return paginated leaderboard sorted by PnL (highest first).
+
+    Rank is computed from this order rather than trusted from the upstream API's
+    "rank" field, which can be duplicated or inconsistent for a given sync.
+    """
     max_records = 60
     all_total = db.query(User).count()
     total = min(all_total, max_records)
@@ -60,48 +64,70 @@ def get_leaderboard(db: Session, page: int = 1, page_size: int = 10):
     if offset >= max_records:
         return {"total": total, "all_total": all_total, "page": page, "page_size": page_size, "total_pages": (total + page_size - 1) // page_size, "data": []}
     limit = min(page_size, max_records - offset)
-    users = db.query(User).order_by(User.rank.asc()).offset(offset).limit(limit).all()
+    users = db.query(User).order_by(User.current_pnl.desc()).offset(offset).limit(limit).all()
+    data = []
+    for i, u in enumerate(users):
+        d = _user_to_dict(u)
+        d["rank"] = offset + i + 1
+        data.append(d)
     return {
         "total": total,
         "all_total": all_total,
         "page": page,
         "page_size": page_size,
         "total_pages": (total + page_size - 1) // page_size,
-        "data": [_user_to_dict(u) for u in users],
+        "data": data,
     }
 
 
 def get_user_rank(db: Session, user_id: int):
-    """Find a specific user's rank by user_id."""
+    """Find a specific user's rank by user_id (computed from PnL order, not the stored rank field)."""
     user = db.query(User).filter(User.user_id == user_id).first()
     print(f"Queried user_id={user_id}, found: {user}")
     if not user:
         return None
-    return _user_to_dict(user)
+    higher = db.query(User).filter(User.current_pnl > user.current_pnl).count()
+    d = _user_to_dict(user)
+    d["rank"] = higher + 1
+    return d
 
 
 def search_user(db: Session, query: str):
-    """Search user by account_id or partial first_name/username (case-insensitive)."""
+    """Search user by account_id or partial first_name/username (case-insensitive).
+
+    Rank is computed from PnL order, not the stored rank field.
+    """
+    def with_rank(u):
+        higher = db.query(User).filter(User.current_pnl > u.current_pnl).count()
+        d = _user_to_dict(u)
+        d["rank"] = higher + 1
+        return d
+
     if query.isdigit():
         user = db.query(User).filter(User.account_id == int(query)).first()
         if user:
-            return [_user_to_dict(user)]
+            return [with_rank(user)]
     search_term = f"%{query}%"
     users = (
         db.query(User)
         .filter(User.first_name.ilike(search_term) | User.username.ilike(search_term))
-        .order_by(User.rank.asc())
+        .order_by(User.current_pnl.desc())
         .all()
     )
     if users:
-        return [_user_to_dict(u) for u in users]
+        return [with_rank(u) for u in users]
     return None
 
 
 def get_all_leaderboard_data(db: Session):
-    """Return all leaderboard data sorted by rank (for export)."""
-    users = db.query(User).order_by(User.rank.asc()).all()
-    return [_user_to_dict(u) for u in users]
+    """Return all leaderboard data sorted by PnL (for export); rank is computed from this order."""
+    users = db.query(User).order_by(User.current_pnl.desc()).all()
+    data = []
+    for i, u in enumerate(users):
+        d = _user_to_dict(u)
+        d["rank"] = i + 1
+        data.append(d)
+    return data
 
 
 def get_leaderboard_data_for_range(db: Session, start_dt: datetime, end_dt: datetime):
@@ -109,7 +135,7 @@ def get_leaderboard_data_for_range(db: Session, start_dt: datetime, end_dt: date
     users = (
         db.query(User)
         .filter(User.updated_at >= start_dt, User.updated_at <= end_dt)
-        .order_by(User.rank.asc())
+        .order_by(User.current_pnl.desc())
         .all()
     )
     return [_user_to_dict(u) for u in users]
