@@ -53,7 +53,7 @@ async def fetch_and_sync(db: Session):
 
 def get_leaderboard(db: Session, page: int = 1, page_size: int = 10):
     """Return paginated leaderboard sorted by rank (top 100 only)."""
-    max_records = 100
+    max_records = 40
     all_total = db.query(User).count()
     total = min(all_total, max_records)
     offset = (page - 1) * page_size

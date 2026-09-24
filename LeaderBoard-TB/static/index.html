@@ -27,6 +27,9 @@
             --success: #059669;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* keep page scrolling but hide the visible scrollbar */
+        html { scrollbar-width: none; -ms-overflow-style: none; }
+        html::-webkit-scrollbar { width: 0; height: 0; display: none; }
         body {
             font-family: 'Inter', sans-serif;
             background: #ffffff;
@@ -1097,7 +1100,8 @@
         .table-title { font-size: 17px; text-align: left; }
         .table-search { position: static; }
         .search-input { width: 230px; border-radius: 999px; padding: 9px 16px 9px 38px; font-size: 13px; font-family: 'Inter', sans-serif; background: #111111 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E") no-repeat 13px center / 16px; }
-        .table-scroll { overflow-x: auto; }
+        .table-scroll { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -ms-overflow-style: none; }
+        .table-scroll::-webkit-scrollbar { width: 0; height: 0; display: none; }
         col.col-rank { width: 80px; }
         col.col-name { width: 36%; }
         col.col-account { width: 20%; }
@@ -1171,8 +1175,6 @@
         @media (max-width: 420px) {
             .hero { grid-template-columns: 1fr 96px; }
             .hero h1 { font-size: 22px; }
-            col.col-account { display: none; }
-            thead th:nth-child(3), tbody td:nth-child(3) { display: none; }
         }
 
         /* ═════════ Mobile / cross-device polish ═════════ */
@@ -1604,33 +1606,38 @@
             .navbar { padding-left: clamp(24px, 4vw, 72px); padding-right: clamp(24px, 4vw, 72px); }
             #liveContent { max-width: 1800px; padding: 0 clamp(24px, 4vw, 72px); }
             .footer { padding-left: clamp(24px, 4vw, 72px); padding-right: clamp(24px, 4vw, 72px); }
-            .stat-card { padding: 22px 26px; }
-            .stat-value { font-size: 32px; }
-            .stat-value.stat-name { font-size: 22px; }
+            .stat-card { padding: 18px 22px; }
+            .stat-value { font-size: 26px; }
+            .stat-value.stat-name { font-size: 19px; }
             .top3-row { gap: 28px; }
-            .top3-title { font-size: 18px; }
+            .top3-title { font-size: 17px; }
             thead th { padding: 16px 22px; font-size: 11.5px; }
             tbody td { padding: 15px 22px; font-size: 14px; }
-            .table-title { font-size: 20px; }
+            .table-title { font-size: 19px; }
             .search-input { width: 300px; }
-            .hero { grid-template-columns: 1.1fr 0.9fr; text-align: left; padding: 66px 8px 120px; min-height: 480px; gap: 30px; }
-            .hero::before { background: radial-gradient(ellipse 45% 85% at 76% 112%, rgba(184,255,0,.5), transparent 70%), radial-gradient(ellipse 40% 60% at 8% 0%, rgba(184,255,0,.08), transparent 70%), linear-gradient(180deg, #0c0c0c 0%, #050505 100%); }
+            .hero { grid-template-columns: 1.1fr 0.9fr; text-align: left; padding: 54px 8px 84px; min-height: 0; gap: 30px; }
+            .hero::before { background: radial-gradient(ellipse 34% 62% at 76% 106%, rgba(184,255,0,.48), transparent 70%), radial-gradient(ellipse 40% 60% at 8% 0%, rgba(184,255,0,.08), transparent 70%), linear-gradient(180deg, #0c0c0c 0%, #050505 100%); }
             .hero-content { align-items: flex-start; }
-            .hero h1 { font-size: 68px; }
-            .hero-sub { margin: 0 0 26px; font-size: 16px; max-width: 620px; }
+            .hero h1 { font-size: 50px; line-height: 1.14; }
+            .hero-sub { margin: 0 0 22px; font-size: 15px; max-width: 560px; }
             .hero-perks { justify-content: flex-start; }
-            .hero-visual { margin-top: 0; justify-content: center; }
-            .hero-trophy { max-width: 480px; }
-            .pod-1 { min-height: 310px; }
-            .pod-2 { min-height: 262px; }
-            .pod-3 { min-height: 236px; }
-            .pod::after { font-size: 96px; }
-            .pod-avatar { width: 60px; height: 60px; font-size: 22px; }
-            .pod-1 .pod-avatar { width: 78px; height: 78px; font-size: 30px; }
-            .pod-name { font-size: 16px; }
-            .pod-1 .pod-name { font-size: 20px; }
-            .pod-pnl { font-size: 17px; }
-            .pod-1 .pod-pnl { font-size: 21px; }
+            .hero-visual { margin-top: 0; justify-content: center; align-items: center; }
+            .hero-trophy { max-width: 296px; filter: drop-shadow(0 14px 24px rgba(184,255,0,.2)); }
+            .pod-1 { min-height: 270px; }
+            .pod-2 { min-height: 228px; }
+            .pod-3 { min-height: 206px; }
+            .pod::after { font-size: 84px; }
+            .pod-avatar { width: 52px; height: 52px; font-size: 19px; }
+            .pod-1 .pod-avatar { width: 68px; height: 68px; font-size: 26px; }
+            .pod-name { font-size: 15px; }
+            .pod-1 .pod-name { font-size: 18px; }
+            .pod-pnl { font-size: 15px; }
+            .pod-1 .pod-pnl { font-size: 19px; }
+            .tp-item .stat-label { font-size: 10.5px; }
+            .tp-figs { font-size: 12px; }
+            .don-center b { font-size: 24px; }
+            .don-name { font-size: 15px; }
+            .don-pnl { font-size: 16px; }
         }
 
         /* Find Your Rank: results must stay reachable on short screens */
@@ -1698,9 +1705,9 @@
         .stat-card::after { content: ''; position: absolute; left: 0; bottom: 0; height: 2px; width: 0; background: #b8ff00; transition: width .35s ease; }
         .stat-card:hover::after { width: 100%; }
         #totalTraders { text-shadow: 0 0 18px rgba(184,255,0,.35); }
-        #yourRank::after { content: '_'; color: #b8ff00; margin-left: 2px; animation: caret 1s steps(1) infinite; }
+        #kpi4::after { content: '_'; color: #b8ff00; margin-left: 2px; animation: caret 1s steps(1) infinite; }
         @keyframes caret { 50% { opacity: 0; } }
-        @media (prefers-reduced-motion: reduce) { #yourRank::after { animation: none; } }
+        @media (prefers-reduced-motion: reduce) { #kpi4::after { animation: none; } }
 
         .kpi-num { font-size: 24px; }
         .kpi-num span { white-space: nowrap; }
@@ -1755,6 +1762,45 @@
             .don-name em { display: none; }
             .don-pnl { font-size: 14px; }
         }
+
+        /* Find Your Rank results: one scroll container only, with room for the last row to clear the edge */
+        .fr-box .fr-list { max-height: none; overflow: visible; }
+        .fr-box .fr-body { overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+        .fr-box .fr-body, .fr-box.has-results .fr-body { padding-bottom: 30px; }
+        @media (max-width: 480px) {
+            .modal-box.fr-box { max-height: 88dvh; }
+            .fr-box .fr-body, .fr-box.has-results .fr-body { padding-bottom: calc(28px + env(safe-area-inset-bottom)); }
+        }
+
+        /* ═════════ Find Your Rank: TB opens like a terminal powering on ═════════ */
+        .modal-box.fr-box { transform-origin: center; animation: tbModalBoot .42s steps(1, end) both; }
+        @keyframes tbModalBoot {
+            0%   { opacity: 0; transform: scaleY(.02); }
+            8%   { opacity: 1; transform: scaleY(.02); }
+            28%  { opacity: 1; transform: scaleY(1); }
+            42%  { opacity: .35; }
+            56%  { opacity: 1; }
+            68%  { opacity: .55; }
+            100% { opacity: 1; transform: scaleY(1); }
+        }
+        .fr-head-ic { animation: tbIconFlicker .5s .1s steps(1, end) both; }
+        @keyframes tbIconFlicker { 0%,15%,30% { opacity: 0; } 8%,22%,45% { opacity: 1; } 100% { opacity: 1; } }
+        /* TB opens as a full-screen console dropping from the top — not a bottom sheet or a centered card */
+        @media (max-width: 480px) {
+            .modal-overlay { align-items: flex-start; padding: 0; }
+            .modal-box.fr-box { width: 100%; max-width: 100%; height: 100vh; height: 100dvh; max-height: 100vh; max-height: 100dvh; border-radius: 0; animation: tbSheetBoot .42s steps(1, end) both; }
+        }
+        @keyframes tbSheetBoot {
+            0%   { opacity: 0; transform: translateY(-100%); }
+            10%  { opacity: 1; transform: translateY(-100%); }
+            35%  { opacity: .4; transform: translateY(-30%); }
+            50%  { opacity: 1; transform: translateY(0); }
+            65%  { opacity: .6; }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .modal-box.fr-box, .fr-head-ic { animation: none; }
+        }
     </style>
 
 </head>
@@ -1766,7 +1812,7 @@
             <img class="tb-logo-img" src="/static/1TB-LOGO.png" alt="Trade Bazaar" />
         </a>
         <div class="navbar-buttons">
-            <button class="action-btn" onclick="openFindRank()">Find Your Rank</button>
+            <button class="action-btn" onclick="openFindRank()">Check Your Rank</button>
         </div>
     </nav>
 
@@ -1816,13 +1862,13 @@
     <section class="hero">
         <div class="hero-content">
             <div class="live-badge"><span class="live-dot"></span>Live</div>
-            <div class="hero-kicker">Live Trading Event</div>
-            <h1>Trade Bazaar <span>Grand Masters</span></h1>
-            <div class="hero-sub">Trader ka sapna hoga sakar. Trade smart, climb the ranks and see where you stand among thousands of traders.</div>
+            <div class="hero-kicker">The Race to the Top Starts Now</div>
+            <h1>Great Traders Rise <span>to the Challenge</span></h1>
+            <div class="hero-sub">Turn your trading experience into a competitive journey. Monitor your progress, challenge yourself, and aim for the leaderboard.</div>
             <div class="hero-perks">
-                <div class="perk"><span class="perk-ic"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg></span><span>NSE &amp; MCX Futures<br>500X Margin</span></div>
-                <div class="perk"><span class="perk-ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M17 4.5a3.5 3.5 0 0 1 0 7M19 14.8c1.6.7 2.6 2.4 2.9 5.2"/></svg></span><span>Comex &amp; Currency<br>200X Margin</span></div>
-                <div class="perk"><span class="perk-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M12 7.5v4M12 11.5l-6 5.5M12 11.5l6 5.5"/></svg></span><span>Live Webinars<br>&amp; Courses</span></div>
+                <div class="perk"><span class="perk-ic"><svg viewBox="0 0 24 24"><path d="M12 2.5c3.3 2.6 5.2 6.4 5.2 10.6L14.8 16H9.2l-2.4-2.9C6.8 8.9 8.7 5.1 12 2.5Z"/><circle cx="12" cy="9.2" r="1.9"/><path d="M9.2 16 7 21l3.4-1.8M14.8 16 17 21l-3.4-1.8"/></svg></span><span>500X Margin<br>0 Brokerage</span></div>
+                <div class="perk"><span class="perk-ic"><svg viewBox="0 0 24 24"><path d="M12 2.8 3.2 7.6 12 12.4l8.8-4.8z"/><path d="M3.2 12.2 12 17l8.8-4.8"/><path d="M3.2 16.6 12 21.4l8.8-4.8"/></svg></span><span>2000+ Options<br>in One Account</span></div>
+                <div class="perk"><span class="perk-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"/><path d="M12 6.8V12l3.6 2.2"/><path d="M12 3.4v1.2M20.6 12h-1.2M12 20.6v-1.2M3.4 12h1.2"/></svg></span><span>Instant Payouts<br>24/7 Support</span></div>
             </div>
         </div>
         <div class="hero-visual">
@@ -1903,7 +1949,7 @@
     <section class="stat-grid tb-panel">
         <div class="tp-left">
             <div class="tp-item"><div class="stat-label">Total Traders</div><div class="stat-value" id="totalTraders">—</div></div>
-            <div class="tp-item"><div class="stat-label">Your Rank</div><div class="stat-value" id="yourRank">--</div><div class="stat-sub" id="yourRankSub">Use “Find Your Rank”</div></div>
+            <div class="tp-item"><div class="stat-label">Median PnL</div><div class="stat-value" id="kpi4">—</div><div class="stat-sub">Middle of the pack</div></div>
         </div>
         <div class="tp-chart">
             <div class="tp-chart-head">
@@ -1941,7 +1987,7 @@
     <section class="table-container" id="leaderTable">
         <div class="table-wrapper">
             <div class="table-header">
-                <div class="table-title-wrap"><div class="table-title">Top <span>100</span> Traders</div><div class="last-updated"><span class="lu-dot"></span><span id="lastUpdated">Live</span></div></div>
+                <div class="table-title-wrap"><div class="table-title">Top <span>40</span> Traders</div><div class="last-updated"><span class="lu-dot"></span><span id="lastUpdated">Live</span></div></div>
                 <div class="table-search">
                     <input type="text" class="search-input" id="headerSearch" placeholder="Search trader..." />
                 </div>
@@ -2112,6 +2158,8 @@
             setKpi('kpi2', sumPnl(t.slice(0, 3)));
             const k = Math.min(10, t.length);
             setKpi('kpi3', k ? t[k - 1].current_pnl : 0);
+            const n = t.length, mid = n ? (n % 2 ? t[(n - 1) / 2].current_pnl : (t[n / 2 - 1].current_pnl + t[n / 2].current_pnl) / 2) : 0;
+            setKpi('kpi4', mid);
             const top = t.slice(0, 10);
             const max = Math.max(...top.map(u => u.current_pnl), 1);
             const bars = document.getElementById('tpBars');
@@ -2295,8 +2343,8 @@
                 resultDiv.classList.add('show');
                 resultDiv.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
                 if (users.length === 1) {
-                    document.getElementById('yourRank').textContent = '#' + users[0].rank;
-                    document.getElementById('yourRankSub').textContent = users[0].first_name;
+                    const yr = document.getElementById('yourRank');
+                    if (yr) { yr.textContent = '#' + users[0].rank; document.getElementById('yourRankSub').textContent = users[0].first_name; }
                 }
             } catch (err) {
                 errorDiv.classList.add('show');

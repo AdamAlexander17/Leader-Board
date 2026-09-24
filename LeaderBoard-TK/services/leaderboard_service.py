@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 
 from models.user import User
 
-EXTERNAL_API_URL = "http://192.248.144.79:6979/api/v1/leaderboard"
+EXTERNAL_API_URL = "http://192.248.144.79:7898/api/v1/leaderboard"
 
 
 async def fetch_and_sync(db: Session):
@@ -53,7 +53,7 @@ async def fetch_and_sync(db: Session):
 
 def get_leaderboard(db: Session, page: int = 1, page_size: int = 10):
     """Return paginated leaderboard sorted by rank (top 100 only)."""
-    max_records = 100
+    max_records = 60
     all_total = db.query(User).count()
     total = min(all_total, max_records)
     offset = (page - 1) * page_size
@@ -126,4 +126,4 @@ def _user_to_dict(user: User) -> dict:
         "rank": user.rank,
         "user_id": user.user_id,
         "username": user.username,
-    }
+}
