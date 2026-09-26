@@ -1800,8 +1800,9 @@
         <a href="#" class="bfx-logo tb-logo">
             <img class="tb-logo-img" src="/static/1TB-LOGO.png" alt="Trade Bazaar" />
         </a>
-        <div class="navbar-buttons">
+        <div class="navbar-buttons solo" id="navButtons">
             <button class="action-btn" onclick="openFindRank()">Check Your Rank</button>
+            <button class="nav-btn" id="downloadBtn" style="display:none" onclick="downloadExcel()">&#8659; Download XLS</button>
         </div>
     </nav>
 
@@ -2360,6 +2361,38 @@
 
         // Ensure data catches up after connectivity returns.
         window.addEventListener('online', () => fetchLeaderboard(currentPage));
+
+
+        // Download XLS stays hidden until this moment (Saturday 26 Sep 2026, 11:59 PM IST)
+        const DOWNLOAD_UNLOCK = new Date('2026-09-26T23:59:00+05:30');
+        function downloadUnlocked() { return true; }
+        function updateDownloadVisibility() {
+            const on = downloadUnlocked();
+            document.getElementById('downloadBtn').style.display = on ? '' : 'none';
+            document.getElementById('navButtons').classList.toggle('solo', !on);
+        }
+        updateDownloadVisibility();
+        setInterval(updateDownloadVisibility, 30000);
+
+        // Download Excel
+        async function downloadExcel() {
+            if (!downloadUnlocked()) return;
+            try {
+                const res = await fetch(`${API}/export-excel`);
+                if (!res.ok) throw new Error('Failed to export');
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `leaderboard.xlsx`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            } catch (err) {
+                alert('Failed to download Excel file. Please try again.');
+            }
+        }
     </script>
 </body>
 </html>

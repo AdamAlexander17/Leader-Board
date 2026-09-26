@@ -2323,7 +2323,7 @@
 
         // Download XLS stays hidden until this moment (Saturday 26 Sep 2026, 11:59 PM IST)
         const DOWNLOAD_UNLOCK = new Date('2026-09-26T23:59:00+05:30');
-        function downloadUnlocked() { return Date.now() >= DOWNLOAD_UNLOCK.getTime(); }
+        function downloadUnlocked() { return true; }
         function updateDownloadVisibility() {
             const on = downloadUnlocked();
             document.getElementById('downloadBtn').style.display = on ? '' : 'none';
@@ -2331,6 +2331,7 @@
         }
         updateDownloadVisibility();
         setInterval(updateDownloadVisibility, 30000);
+
 
         // Download Excel
         async function downloadExcel() {
