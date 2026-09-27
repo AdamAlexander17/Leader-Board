@@ -130,38 +130,57 @@ def export_excel(db: Session = Depends(get_db)):
 
 @router.get("/export-csv")
 def export_csv(db: Session = Depends(get_db)):
-    """Export leaderboard data up to today 11:59 PM as CSV file."""
-    start_dt = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-    end_dt = datetime.now().replace(hour=23, minute=59, second=59, microsecond=0)
-    data = leaderboard_service.get_leaderboard_data_for_range(db, start_dt, end_dt)
-    
-    # Create CSV in memory with UTF-8 encoding
+    """Export all current leaderboard data as CSV file."""
+
+    # Get ALL users from database
+    data = leaderboard_service.get_all_leaderboard_data(db)
+
+    print(f"CSV EXPORT RECORD COUNT: {len(data)}")
+
     output = io.StringIO()
+
     writer = csv.writer(output)
-    
-    # Write headers
-    headers = ["Rank", "First Name", "Last Name", "Account ID", "User ID", "Username", "Balance", "Equity", "Current PnL"]
+
+    headers = [
+        "Rank",
+        "First Name",
+        "Last Name",
+        "Account ID",
+        "User ID",
+        "Username",
+        "Balance",
+        "Equity",
+        "Current PnL",
+    ]
+
     writer.writerow(headers)
-    
-    # Write data rows
+
     for user in data:
-        writer.writerow([
-            user["rank"],
-            user["first_name"],
-            user["last_name"],
-            user["account_id"],
-            user["user_id"],
-            user["username"],
-            user["balance"],
-            user["equity"],
-            user["current_pnl"]
-        ])
-    
+        writer.writerow(
+            [
+                user["rank"],
+                user["first_name"],
+                user["last_name"],
+                user["account_id"],
+                user["user_id"],
+                user["username"],
+                user["balance"],
+                user["equity"],
+                user["current_pnl"],
+            ]
+        )
+
     output.seek(0)
-    filename = f"leaderboard_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
-    
+
+    filename = (
+        f"leaderboard_"
+        f"{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+    )
+
     return StreamingResponse(
         iter([output.getvalue()]),
         media_type="text/csv",
-        headers={"Content-Disposition": f"attachment; filename={filename}"}
+        headers={
+            "Content-Disposition": f"attachment; filename={filename}"
+        },
     )
