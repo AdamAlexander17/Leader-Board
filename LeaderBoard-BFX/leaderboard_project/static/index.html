@@ -2326,8 +2326,10 @@
         function downloadUnlocked() { return true; }
         function updateDownloadVisibility() {
             const on = downloadUnlocked();
-            document.getElementById('downloadBtn').style.display = on ? '' : 'none';
-            document.getElementById('navButtons').classList.toggle('solo', !on);
+            const btn = document.getElementById('downloadBtn');
+            if (btn) btn.style.display = on ? '' : 'none';
+            const nav = document.getElementById('navButtons');
+            if (nav) nav.classList.toggle('solo', !on);
         }
         updateDownloadVisibility();
         setInterval(updateDownloadVisibility, 30000);

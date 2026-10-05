@@ -1,0 +1,231 @@
+
+
+using System;
+
+
+public class DsaProblem {
+    public static int MaxNum(int[] number){
+        int max = number[0];
+        for(int i =0 ; i< number.Length; i++){
+            if(number[i]>max){
+                max = number[i];
+            }
+        }
+        return max;
+        
+    }
+    public static void Main(string[] args) {
+        int []numbers = { 10, 25, 7, 42, 15 } ;
+        Console.WriteLine (MaxNum(numbers));
+    }
+}
+
+
+
+
+using System;
+
+public class DsaProblem {
+    public static int MinNum(int[] number){
+        int min = number[0];
+        for(int i =1 ; i< number.Length; i++){
+            if(number[i]<min){
+                min = number[i];
+            }
+        }
+        return min;
+        
+    }
+    public static void Main(string[] args) {
+        int []numbers = {10,32,43,2,4,3,76};
+        Console.WriteLine (MinNum(numbers));
+    }
+}
+
+
+
+
+using System;
+
+
+public class DsaProblem {
+    public static int IndexNum(int[] number, int target){
+        for(int i =0 ; i< number.Length; i++){
+            if(number[i]==target){
+                return i;
+            }
+        }
+        return -1;   
+    }
+    public static void Main(string[] args) {
+        int []numbers = {10,32,43,2,4,3,76};
+        int target = 4;
+        Console.WriteLine (IndexNum(numbers,target));
+    }
+}
+
+
+
+
+using System;
+
+
+public class DsaProblem {
+    public static int FindOccurence(int[] number, int target){
+        int result = 0;
+        for(int i =0 ; i< number.Length; i++){
+            if(number[i]==target){
+                result++;
+            }
+        }
+        return result;
+        
+    }
+    public static void Main(string[] args) {
+        int []numbers = {10,4,32,43,2,4,3,76,4};
+        int target = 4;
+        Console.WriteLine (FindOccurence(numbers,target));
+    }
+} 
+
+
+
+
+
+using System;
+
+
+public class DsaProblem {
+    public static int[] ReverseNum(int[] number){
+        int left = 0;
+        int right = number.Length-1;
+        while(left<right){
+            int temp = number[left];
+            number[left] = number[right];
+            number[right] = temp;
+            left++;
+            right--;
+            
+        }
+     return number;
+        
+    }
+    public static void Main(string[] args) {
+        int []numbers = {10, 20, 30, 40, 50};
+        int[] result = ReverseNum(numbers);
+      Console.WriteLine(string.Join(", ", result));
+    }
+}
+
+
+
+
+
+using System;
+
+public class DsaProblem {
+    public static bool FindSumTwoNum(int[] number, int target){
+        for(int i = 0 ; i<number.Length; i++){
+            for(int j = i+1; j<number.Length; j++){
+                if(number[i]+number[j] == target){
+                    
+                    return true;
+                }
+            }
+        }
+        return false;   
+    }
+    public static void Main(string[] args) {
+        int []numbers = {1, 2, 3, 4, 5, 6, 7, 8};
+        int target = 10;
+        bool result = FindSumTwoNum(numbers,target);
+        Console.WriteLine(result);
+    }
+}
+
+
+
+using System;
+
+public class DsaProblem {
+    public static void FindSumTwoNum(int[] number, int target){
+        for(int i = 0 ; i<number.Length; i++){
+            for(int j = i+1; j<number.Length; j++){
+                if(number[i]+number[j] == target){
+                    Console.WriteLine(number[i] + " + " + number[j] + " = " + target);
+                    // return true;
+                }
+            }
+        }
+        // return false;   
+    }
+    public static void Main(string[] args) {
+        int []numbers = {1, 2, 3, 4, 5, 6, 7, 8};
+        int target = 10;
+         FindSumTwoNum(numbers,target);
+        // Console.WriteLine(result);
+    }
+}
+
+
+
+
+using System;
+
+
+public class DsaProblem {
+    public static bool FindSumTwoNum(int[] number, int target){
+       int left = 0;
+       int right = number.Length-1;
+       while(left<right){
+           int sum = number[left]+number[right];
+           if(sum==target){
+               return true;
+           }
+           else if(sum<target){
+               left++;
+           }
+           else{
+               right--;
+           }
+       }
+      return false;
+    }
+    public static void Main(string[] args) {
+        int []numbers = {1, 2, 3, 4, 5, 6, 7, 8};
+        int target = 10;
+        bool result = FindSumTwoNum(numbers,target);
+        Console.WriteLine(result);
+    }
+}
+
+
+
+
+using System;
+
+public class DsaProblem {
+    public static int FindSecondLargest(int[] number){
+         int largest = number[0];
+         int secondlargest = number[0];
+         for(int i = 0 ; i<number.Length; i++){
+             if(number[i]>largest){
+                 secondlargest = largest;
+                 largest=number[i];
+             }
+             else if(number[i]>secondlargest && number[i] < largest){
+                 secondlargest= number[i];
+             }
+         }
+        return secondlargest;
+    }
+    public static void Main(string[] args) {
+        int []numbers = { 10, 25, 7,42, 42, 15, 30 };
+        // int target = 10;
+        int result = FindSecondLargest(numbers);
+        Console.WriteLine(result);
+    }
+}
+
+
+

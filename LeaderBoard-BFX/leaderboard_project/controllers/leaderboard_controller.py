@@ -49,10 +49,8 @@ async def manual_sync(db: Session = Depends(get_db)):
 
 @router.get("/export-excel")
 def export_excel(db: Session = Depends(get_db)):
-    """Export leaderboard data up to today 11:59 PM as Excel file."""
-    start_dt = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-    end_dt = datetime.now().replace(hour=23, minute=59, second=59, microsecond=0)
-    data = leaderboard_service.get_leaderboard_data_for_range(db, start_dt, end_dt)
+    """Export all current leaderboard data as Excel file, ranked by PnL."""
+    data = leaderboard_service.get_all_leaderboard_data(db)
     
     # Create workbook
     wb = openpyxl.Workbook()
